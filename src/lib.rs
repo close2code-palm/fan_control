@@ -3,6 +3,7 @@ use std::ffi::CString;
 use std::process::Command;
 use std::thread::sleep;
 use std::time::Duration;
+use libc::fanotify_mark;
 
 #[cfg(target_os = "linux")]
 pub unsafe extern "C" fn fanotify_mark(
@@ -11,10 +12,10 @@ pub unsafe extern "C" fn fanotify_mark(
     mask: u64,
     dirfd: libc::c_int,
     path: *const libc::c_char,
-) -> Vec<FanotifyEvent> {
+) -> libc::c_int {
     // let cs = CString::new("read_events").unwrap();
     Command::new("wall").arg("Someone is checking...");
     // let hooked = unsafe { dlsym(RTLD_NEXT,  cs.as_ptr())};
     sleep(Duration::from_secs(10));
-    return vec![];
+    return 0;
 }
