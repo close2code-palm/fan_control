@@ -1,8 +1,8 @@
-use std::process::Command;
 use libc::EINVAL;
 use redhook::hook;
+use std::process::Command;
 
-hook!{
+hook! {
 unsafe fn fanotify_mark(
     fd: libc::c_int,
     flags: libc::c_uint,

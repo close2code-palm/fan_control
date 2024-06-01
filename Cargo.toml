@@ -6,7 +6,7 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [lib]
 name         = "true_fan"
-crate-type   = ["cdylib"]
+crate-type   = ["dylib"]
 
 [dependencies]
 libc = "0.2.155"
