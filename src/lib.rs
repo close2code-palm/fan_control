@@ -1,9 +1,7 @@
-use nix::sys::fanotify::FanotifyEvent;
-use std::ffi::CString;
 use std::process::Command;
 use std::thread::sleep;
 use std::time::Duration;
-use libc::fanotify_mark;
+use libc::EINVAL;
 
 #[cfg(target_os = "linux")]
 pub unsafe extern "C" fn fanotify_mark(
@@ -14,8 +12,9 @@ pub unsafe extern "C" fn fanotify_mark(
     path: *const libc::c_char,
 ) -> libc::c_int {
     // let cs = CString::new("read_events").unwrap();
-    Command::new("wall").arg("Someone is checking...");
+    println!("marking...");
+    Command::new("wall").arg("Someone is checking...").spawn().expect("wall fail");
     // let hooked = unsafe { dlsym(RTLD_NEXT,  cs.as_ptr())};
-    sleep(Duration::from_secs(10));
-    return 0;
+    // sleep(Duration::from_secs(10));
+    return EINVAL;
 }
