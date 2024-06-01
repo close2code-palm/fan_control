@@ -1,5 +1,5 @@
-use libc::EINVAL;
-use redhook::hook;
+use libc::{EINVAL, pid_t, regex_t};
+use redhook::{hook, real};
 use std::process::Command;
 
 hook! {
@@ -16,5 +16,15 @@ unsafe fn fanotify_mark(
     // let hooked = unsafe { dlsym(RTLD_NEXT,  cs.as_ptr())};
     // sleep(Duration::from_secs(10));
     return EINVAL;
+        // getpid()
 }
+}
+
+hook! {
+    unsafe fn getpid() -> pid_t => gp_stub {
+        println!("Your about to know everything!");
+        let res = real!(getpid)();
+        println!("reality: {res}")
+        return res + 2
+    }
 }
